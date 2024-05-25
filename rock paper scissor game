@@ -1,0 +1,55 @@
+import random
+
+def play_game():
+    print("Welcome to Rock, Paper, Scissors game!")
+    print("Enter 'r' for Rock, 'p' for Paper, and 's' for Scissors.")
+    print("To quit the game, enter 'q'.")
+    
+    choices = {'r': 'Rock', 'p': 'Paper', 's': 'Scissors'}
+    user_score = 0
+    computer_score = 0
+    
+    while True:
+        user_choice = input("Enter your choice: ").lower()
+        
+        if user_choice == 'q':
+            print("Thanks for playing. Final scores:")
+            print(f"You: {user_score}")
+            print(f"Computer: {computer_score}")
+            break
+        
+        if user_choice not in choices:
+            print("Invalid choice. Please enter 'r', 'p', 's', or 'q'.")
+            continue
+        
+        computer_choice = random.choice(list(choices.keys()))
+        print(f"Computer chose {choices[computer_choice]}")
+        
+        if user_choice == computer_choice:
+            print("It's a tie!")
+        elif (user_choice == 'r' and computer_choice == 's') or \
+             (user_choice == 'p' and computer_choice == 'r') or \
+             (user_choice == 's' and computer_choice == 'p'):
+            print("You win!")
+            user_score += 1
+        else:
+            print("Computer wins!")
+            computer_score += 1
+        
+        print(f"Score - You: {user_score}, Computer: {computer_score}")
+        
+        play_again = input("Do you want to play again? (yes/no): ").lower()
+        if play_again != 'yes':
+            print("Thanks for playing. Final scores:")
+            print(f"You: {user_score}")
+            print(f"Computer: {computer_score}")
+            break
+
+if __name__ == "__main__":
+    play_game()
+
+
+
+
+
+
