@@ -40,3 +40,44 @@ class TodoApp:
     def save_todos(self):
         with open("todos.txt", "w") as file:
             file.write(str(self.todos))
+    
+    def update_task_listbox(self):
+        self.task_listbox.delete(0, tk.END)
+        for category, tasks in self.todos.items():
+            for task in tasks:
+                self.task_listbox.insert(tk.END, f"{category}: {task}")
+    
+    def add_task(self):
+        category = self.category_var.get()
+        task = self.task_var.get()
+        if category and task:
+            if category not in self.todos:
+                self.todos[category] = []
+            self.todos[category].append(task)
+            self.save_todos()
+            self.update_task_listbox()
+            self.task_var.set("")
+            messagebox.showinfo("Success", "Task added successfully!")
+        else:
+            messagebox.showwarning("Warning", "Category and Task cannot be empty!")
+    
+    def delete_task(self):
+        selected_task_index = self.task_listbox.curselection()
+        if selected_task_index:
+            task_index = selected_task_index[0]
+            selected_task = self.task_listbox.get(task_index)
+            category, task = selected_task.split(": ")
+            self.todos[category].remove(task)
+            if not self.todos[category]:
+                del self.todos[category]
+            self.save_todos()
+            self.update_task_listbox()
+            messagebox.showinfo("Success", "Task deleted successfully!")
+        else:
+            messagebox.showwarning("Warning", "Select a task to delete!")
+
+if __name__ == "__main__":
+    root = tk.Tk()
+    app = TodoApp(root)
+    root.mainloop()
+
